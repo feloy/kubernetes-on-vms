@@ -1,0 +1,5 @@
+---
+- hosts: workers
+  roles:
+  - k8s-common
+  - k8s-worker

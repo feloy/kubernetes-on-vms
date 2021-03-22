@@ -1,0 +1,22 @@
+---
+- name: "Disable SELinux"
+  selinux:
+    policy: targeted
+    state: permissive
+  notify: [ "reboot machine" ]
+
+- name: "Disable swap"
+  mount:
+    path: none
+    fstype: swap
+    state: absent
+  notify: [ "reboot machine" ]
+
+- name: Flush handlers
+  meta: flush_handlers
+
+- name: "Disable firewalld"
+  service:
+    name: firewalld
+    state: stopped
+    enabled: False

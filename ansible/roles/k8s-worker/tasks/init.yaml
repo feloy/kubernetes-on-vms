@@ -1,0 +1,22 @@
+---
+
+- name: Create Kubernetes config directory
+  file:
+    path: ".kube/"
+    state: directory
+
+- name: Copy kubeconfig to Home directory
+  copy:
+    src: "fetched/.kube/config"
+    dest: ".kube/config"
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_id }}"
+    mode: 0755
+
+- name: Join the cluster
+  shell: |
+    TOKEN=$(kubeadm token create)
+    echo $TOKEN
+    MASTER_IP={{ hostvars[groups['master'][0]]['ansible_default_ipv4']['address'] }}
+    echo $MASTER_IP
+    kubeadm join --token $TOKEN --discovery-token-unsafe-skip-ca-verification $MASTER_IP:6443

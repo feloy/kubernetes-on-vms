@@ -1,0 +1,16 @@
+master:
+  hosts:
+    vm1:
+      ansible_host: 192.168.122.18
+      ansible_user: root
+workers:
+  hosts:
+    vm2:
+      ansible_host: 192.168.122.190
+      ansible_user: root
+#    vm3:
+#      ansible_host: 192.168.122.114
+#      ansible_user: root
+#    vm4:
+#      ansible_host: 192.168.122.224
+#      ansible_user: root

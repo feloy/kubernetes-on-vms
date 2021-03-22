@@ -1,0 +1,33 @@
+---
+- import_tasks: system_setup.yaml
+
+- name: Template kube RPM repo
+  template:
+    src: kubernetes.repo.j2
+    dest: /etc/yum.repos.d/kubernetes.repo
+
+- name: "Install kubectl"
+  yum:
+    name: "kubectl"
+    disable_excludes: kubernetes
+    state: present
+
+- name: "Install kubelet"
+  yum:
+    name: "kubelet"
+    disable_excludes: kubernetes
+    state: present
+
+- name: "Install kubeadm"
+  yum:
+    name: "kubeadm"
+    disable_excludes: kubernetes
+    state: present
+
+- name: "Enable kubelet"
+  service:
+    name: "kubelet"
+    state: started
+    enabled: yes
+
+- import_tasks: runtime-docker-ce.yaml

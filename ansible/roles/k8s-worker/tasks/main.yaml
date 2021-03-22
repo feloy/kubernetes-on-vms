@@ -1,0 +1,10 @@
+---
+
+- name: Check if has already run
+  stat:
+    path: ".kube/config"
+  register: kubeconfig
+
+- name: Init node if needed
+  include_tasks: init.yaml
+  when: not kubeconfig.stat.exists
