@@ -1,0 +1,33 @@
+---
+
+- name: Add libcontainers repo
+  get_url:
+    url: https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/CentOS_8/devel:kubic:libcontainers:stable.repo
+    dest: /etc/yum.repos.d/devel:kubic:libcontainers:stable.repo
+
+- name: Add cri-o repo
+  get_url:
+    url: https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable:cri-o:1.20/CentOS_8/devel:kubic:libcontainers:stable:cri-o:1.20.repo
+    dest: /etc/yum.repos.d/devel:kubic:libcontainers:stable:cri-o:1.20.repo
+
+- name: "Install cri-o"
+  yum:
+    name: "cri-o"
+    state: present
+
+- name: Create the crio.conf.d directory if it does not exist
+  file:
+    path: /etc/crio/crio.conf.d
+    state: directory
+    mode: '0755'
+
+- name: Ensure cri-o cgroup manager is cgroupfs
+  template:
+    src: 02-cgroup-manager.conf.j2
+    dest: /etc/crio/crio.conf.d/02-cgroup-manager.conf
+
+- name: "Start and enable cri-o daemon"
+  service:
+    name: "cri-o"
+    state: started
+    enabled: yes

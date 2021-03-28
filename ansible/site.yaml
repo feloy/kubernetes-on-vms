@@ -1,3 +1,4 @@
 ---
 - import_playbook: master.yaml
 - import_playbook: workers.yaml
+- import_playbook: devs.yaml

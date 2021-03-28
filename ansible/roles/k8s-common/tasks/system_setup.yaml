@@ -15,6 +15,48 @@
 - name: Flush handlers
   meta: flush_handlers
 
+- name: Add overlay module
+  modprobe:
+    name: overlay
+    state: present
+
+- name: Add br_netfilter module
+  modprobe:
+    name: br_netfilter
+    state: present
+
+- name: Ensure overlay module is loaded
+  lineinfile:
+    path: /etc/modules-load.d/crio.conf
+    line: overlay
+    create: true
+
+- name: Ensure br_netfilter module is loaded
+  lineinfile:
+    path: /etc/modules-load.d/crio.conf
+    line: br_netfilter
+
+- sysctl:
+    name: net.bridge.bridge-nf-call-iptables
+    value: '1'
+    state: present
+    sysctl_file: /etc/sysctl.d/99-kubernetes-cri.conf
+    reload: yes
+
+- sysctl:
+    name: net.ipv4.ip_forward
+    value: '1'
+    state: present
+    sysctl_file: /etc/sysctl.d/99-kubernetes-cri.conf
+    reload: yes
+
+- sysctl:
+    name: net.bridge.bridge-nf-call-ip6tables
+    value: '1'
+    state: present
+    sysctl_file: /etc/sysctl.d/99-kubernetes-cri.conf
+    reload: yes
+
 - name: "Disable firewalld"
   service:
     name: firewalld

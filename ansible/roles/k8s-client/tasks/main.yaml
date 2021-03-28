@@ -1,0 +1,10 @@
+- name: Template kube RPM repo
+  template:
+    src: kubernetes.repo.j2
+    dest: /etc/yum.repos.d/kubernetes.repo
+
+- name: "Install kubectl"
+  yum:
+    name: "kubectl"
+    disable_excludes: kubernetes
+    state: present

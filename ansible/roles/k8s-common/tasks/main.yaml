@@ -30,4 +30,4 @@
     state: started
     enabled: yes
 
-- import_tasks: runtime-docker-ce.yaml
+- import_tasks: runtime-cri-o.yaml
