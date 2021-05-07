@@ -8,19 +8,19 @@
 
 - name: "Install kubectl"
   yum:
-    name: "kubectl"
+    name: "kubectl-1.20.6"
     disable_excludes: kubernetes
     state: present
 
 - name: "Install kubelet"
   yum:
-    name: "kubelet"
+    name: "kubelet-1.20.6"
     disable_excludes: kubernetes
     state: present
 
 - name: "Install kubeadm"
   yum:
-    name: "kubeadm"
+    name: "kubeadm-1.20.6"
     disable_excludes: kubernetes
     state: present
 
